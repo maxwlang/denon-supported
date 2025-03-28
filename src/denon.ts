@@ -58,7 +58,7 @@ export const getDenonDevice = async (
             if (!denonDevice) {
                 resolve(undefined)
             }
-        }, 100_000)
+        }, denonConfig.searchTimeout)
     })
 }
 

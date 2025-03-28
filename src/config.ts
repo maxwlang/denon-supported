@@ -7,7 +7,7 @@ const config: Config = {
         sonosInterfaceSource:
             process.env['DENON_SONOS_INPUT_SOURCE']?.toUpperCase() || 'CD',
         ip: process.env['DENON_IP'],
-        searchTimeout: parseInt(process.env['DENON_SEARCH_TIMEOUT'] || '10000')
+        searchTimeout: parseInt(process.env['DENON_SEARCH_TIMEOUT'] || '100000')
     },
     sonos: {
         name: process.env['SONOS_NAME'],
