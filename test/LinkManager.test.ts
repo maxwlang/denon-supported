@@ -43,9 +43,14 @@ describe('LinkManager', () => {
 
         config = {
             denon: {
-                sonosInterfaceSource: 'CD'
+                sonosInterfaceSource: 'CD',
+                searchTimeout: 1000,
+                volumeMultiplier: 1
             },
-            volumeMultiplier: 1
+            sonos: {
+                searchTimeout: 1000,
+                volumeMultiplier: 1
+            }
         } as Config
 
         logger = {
@@ -324,6 +329,50 @@ describe('LinkManager', () => {
 
             expect(sonosDevice.getMuted).toHaveBeenCalledTimes(1)
             expect(denonMethods.writeDenonMute).not.toHaveBeenCalled()
+        })
+
+        it('should apply a volume multiplier to Denon when syncing volume', async () => {
+            linkManager['denonPid'] = 1
+            linkManager['config'].denon.volumeMultiplier = 2
+            linkManager['registerSonosWatchers']()
+
+            // Simulate a change in Sonos volume
+            jest.spyOn(sonosDevice, 'getVolume')
+                .mockResolvedValueOnce(50)
+                .mockResolvedValueOnce(60)
+
+            jest.advanceTimersByTime(250)
+
+            linkManager['sonosWatchers']['level'].lastValue = 50
+
+            jest.advanceTimersByTime(250)
+
+            await Promise.resolve()
+
+            expect(sonosDevice.getVolume).toHaveBeenCalledTimes(2)
+            expect(denonMethods.writeDenonVolume).toHaveBeenCalledWith(
+                linkManager['denonDevice'].address,
+                120
+            )
+        })
+
+        it('should apply a volume multiplier to Sonos when syncing volume', async () => {
+            linkManager['denonPid'] = 1
+            linkManager['config'].sonos.volumeMultiplier = 2
+            linkManager['registerDenonEvents']()
+
+            // Simulate a change in Denon volume
+            const event = {
+                event: 'player_volume_changed',
+                message: {
+                    mute: 'off',
+                    level: 60
+                }
+            } as DenonHeosEvent
+
+            await linkManager['handleDenonEvent'](event)
+
+            expect(sonosDevice.setVolume).toHaveBeenCalledWith(120)
         })
     })
 })
