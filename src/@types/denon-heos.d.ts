@@ -39,13 +39,6 @@ declare module 'denon-heos' {
         debug(...args: unknown[]): void
         setAddress(address: string): void
         on(event, listener: (event: DenonHeosEvent) => void): this
-        // _write({
-        //     command,
-        //     qs
-        // }: {
-        //     command: string
-        //     qs: Record<string, unknown>
-        // }): void // TODO: remove
         async connect(): Promise<void>
         async disconnect(): Promise<void>
         async reconnect(): Promise<void>

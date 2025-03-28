@@ -3,7 +3,7 @@ import { DenonDevice } from './@types/denon-heos'
 import { DenonConfig } from './types'
 import { Logger } from 'pino'
 
-const DENON_URI = 'http://%s:8080/goform/formiPhoneAppDirect.xml'
+export const DENON_URI = 'http://%s:8080/goform/formiPhoneAppDirect.xml'
 
 export const getDenonPid = async (
     denonDevice: DenonDevice
@@ -98,7 +98,7 @@ export const writeDenonVolume = async (
     volume: number
 ): Promise<void> => {
     const formattedVolume = formatVolume(volume)
-    await fetch(DENON_URI.replace('%s', ipAddress) + `?MV${formattedVolume}`, {
+    await fetch(`${DENON_URI}?MV${formattedVolume}`.replace('%s', ipAddress), {
         method: 'GET',
         redirect: 'follow'
     }).catch(error => console.error(error))
@@ -109,7 +109,7 @@ export const writeDenonMute = async (
     mute: boolean
 ): Promise<void> => {
     await fetch(
-        DENON_URI.replace('%s', ipAddress) + `?MU${mute ? 'ON' : 'OFF'}`,
+        `${DENON_URI}?MU${mute ? 'ON' : 'OFF'}`.replace('%s', ipAddress),
         {
             method: 'GET',
             redirect: 'follow'
@@ -121,7 +121,7 @@ export const writeDenonSource = async (
     ipAddress: string,
     source: string
 ): Promise<void> => {
-    await fetch(DENON_URI.replace('%s', ipAddress) + `?SI${source}`, {
+    await fetch(`${DENON_URI}?SI${source}`.replace('%s', ipAddress), {
         method: 'GET',
         redirect: 'follow'
     }).catch(error => console.error(error))
@@ -132,7 +132,7 @@ export const writeDenonPower = async (
     power: boolean
 ): Promise<void> => {
     await fetch(
-        DENON_URI.replace('%s', ipAddress) + `?PW${power ? 'ON' : 'STANDBY'}`,
+        `${DENON_URI}?PW${power ? 'ON' : 'STANDBY'}`.replace('%s', ipAddress),
         {
             method: 'GET',
             redirect: 'follow'
