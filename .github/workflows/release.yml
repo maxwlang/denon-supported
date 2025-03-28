@@ -16,18 +16,18 @@ jobs:
             packages: write
         steps:
             # Setup
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4.2.2
               with:
                   fetch-depth: 0
-            - uses: actions/setup-node@v2.1.4
+            - uses: actions/setup-node@v4.3.0
               with:
-                  node-version: 20
+                  node-version: 22
 
             - name: Get yarn cache directory path
               id: yarn-cache-dir-path
               run: echo "::set-output name=dir::$(yarn cache dir)"
             - name: Setup yarn cache
-              uses: actions/cache@v4
+              uses: actions/cache@v4.2.3
               id: yarn-cache
               with:
                   path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -47,7 +47,7 @@ jobs:
 
             # Build docker image, push to GitHub Packages
             - name: Log in to the Container registry
-              uses: docker/login-action@v3.0.0
+              uses: docker/login-action@v3.4.0
               with:
                   registry: ${{ env.REGISTRY }}
                   username: ${{ github.actor }}
@@ -55,7 +55,7 @@ jobs:
 
             - name: Extract metadata (tags, labels) for Docker
               id: meta
-              uses: docker/metadata-action@v5.4.0
+              uses: docker/metadata-action@v5.7.0
               with:
                   images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
                   tags: |
@@ -63,7 +63,7 @@ jobs:
                       type=sha
 
             - name: Build and push Docker image
-              uses: docker/build-push-action@v5.1.0
+              uses: docker/build-push-action@v6.15.0
               with:
                   context: .
                   push: true
