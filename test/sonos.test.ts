@@ -30,6 +30,12 @@ describe('sonos', () => {
         discover: jest.fn()
     }
 
+    const sonosConfig: SonosConfig = {
+        ip: '10.0.10.20',
+        searchTimeout: 5000,
+        volumeMultiplier: 1
+    }
+
     beforeEach(() => {
         jest.useFakeTimers()
         jest.mocked(AsyncDeviceDiscovery).mockImplementation(
@@ -48,10 +54,6 @@ describe('sonos', () => {
                 mockSonosDevice
             ])
 
-            const sonosConfig: SonosConfig = {
-                ip: '10.0.10.20',
-                searchTimeout: 5000
-            }
             const device = await sonos.getSonosDevice(sonosConfig, logger)
 
             expect(device).toEqual(mockSonosDevice)
@@ -66,10 +68,6 @@ describe('sonos', () => {
                 mockSonosDevice
             ])
 
-            const sonosConfig: SonosConfig = {
-                name: 'Living Room',
-                searchTimeout: 5000
-            }
             const device = await sonos.getSonosDevice(sonosConfig, logger)
 
             expect(device).toEqual(mockSonosDevice)
@@ -86,7 +84,8 @@ describe('sonos', () => {
 
             const sonosConfig: SonosConfig = {
                 name: 'Kitchen',
-                searchTimeout: 5000
+                searchTimeout: 5000,
+                volumeMultiplier: 1
             }
             const device = await sonos.getSonosDevice(sonosConfig, logger)
 
@@ -102,7 +101,7 @@ describe('sonos', () => {
             getSonosDeviceSpy.mockResolvedValueOnce(mockSonosDevice)
 
             const sonosDevice = await sonos.waitForSonosDevice(
-                { ip: mockSonosDevice.host },
+                sonosConfig,
                 logger
             )
 
@@ -119,7 +118,7 @@ describe('sonos', () => {
                 .mockResolvedValueOnce(mockSonosDevice)
 
             const sonosDevicePromise = sonos.waitForSonosDevice(
-                { ip: mockSonosDevice.host },
+                sonosConfig,
                 logger
             )
 

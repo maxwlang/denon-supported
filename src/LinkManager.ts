@@ -105,7 +105,7 @@ export default class LinkManager {
         if (level) {
             this.logger.debug('Syncing Sonos volume to Denon')
             this.debouncedSetSonosVolume(
-                +level //* this.config.volumeMultiplier
+                +level * this.config.sonos.volumeMultiplier
             )
         }
 
@@ -132,7 +132,7 @@ export default class LinkManager {
                 this.logger.debug('Syncing Denon volume to Sonos')
                 this.debouncedSetDenonVolume(
                     this.denonDevice.address,
-                    level // * this.config.volumeMultiplier
+                    level * this.config.denon.volumeMultiplier
                 )
                 this.sonosWatchers['level'].lastValue = level
             }, 250),

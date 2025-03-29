@@ -93,7 +93,8 @@ describe('denon', () => {
             const denonConfig: DenonConfig = {
                 ip: '10.0.10.30',
                 searchTimeout: 5000,
-                sonosInterfaceSource: 'CD'
+                sonosInterfaceSource: 'CD',
+                volumeMultiplier: 1
             }
 
             mockDiscover.on.mockImplementation(
@@ -121,7 +122,8 @@ describe('denon', () => {
             const denonConfig: DenonConfig = {
                 ip: '10.0.10.30',
                 searchTimeout: 5000,
-                sonosInterfaceSource: 'CD'
+                sonosInterfaceSource: 'CD',
+                volumeMultiplier: 1
             }
 
             const promise = denon.getDenonDevice(denonConfig, mockLogger)
@@ -139,7 +141,8 @@ describe('denon', () => {
             const denonConfig: DenonConfig = {
                 name: 'Living Room',
                 searchTimeout: 5000,
-                sonosInterfaceSource: 'CD'
+                sonosInterfaceSource: 'CD',
+                volumeMultiplier: 1
             }
 
             mockDiscover.on.mockImplementation(
@@ -169,7 +172,8 @@ describe('denon', () => {
             const denonConfig: DenonConfig = {
                 name: 'Living Room',
                 searchTimeout: 5000,
-                sonosInterfaceSource: 'CD'
+                sonosInterfaceSource: 'CD',
+                volumeMultiplier: 1
             }
 
             const getDenonDeviceSpy = jest.spyOn(denon, 'getDenonDevice')
@@ -194,7 +198,8 @@ describe('denon', () => {
             const denonConfig: DenonConfig = {
                 name: 'Living Room',
                 searchTimeout: 5000,
-                sonosInterfaceSource: 'CD'
+                sonosInterfaceSource: 'CD',
+                volumeMultiplier: 1
             }
 
             const getDenonDeviceSpy = jest.spyOn(denon, 'getDenonDevice')
